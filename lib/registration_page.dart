@@ -7,15 +7,17 @@ class RegistrationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Navigation Demo',
+      title: 'EchoFeed',
       home: RegPage(),
     );
   }
 }
 
 class RegPage extends StatelessWidget {
+  const RegPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +25,7 @@ class RegPage extends StatelessWidget {
         title: Row(
           children: [
             backIcon(),
-            const Text("Second Screen"),
+            const Text("Create an account"),
           ],
         ),
       ),
