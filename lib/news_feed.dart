@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'notification_model.dart'; // Import the notification model
+import 'dart:typed_data';
 
 class Post {
   String username;
-  String userImageUrl;
+  final ImageProvider userImageUrl;
   String timestamp;
   String contentText;
   String contentImageUrl;
@@ -29,14 +30,14 @@ class Post {
 List<Post> posts = [
   Post(
     username: 'John Doe',
-    userImageUrl: 'https://picsum.photos/250?image=237',
+    userImageUrl: const NetworkImage('https://picsum.photos/250?image=237'),
     timestamp: '21 hours ago',
     contentText: 'Enjoying the beautiful sunset at the beach!',
     contentImageUrl: 'https://picsum.photos/250?image=51',
   ),
   Post(
     username: 'Mark Doe',
-    userImageUrl: 'https://picsum.photos/250?image=238',
+    userImageUrl: const NetworkImage('https://picsum.photos/250?image=237'),
     timestamp: '1 day ago',
     contentText: 'Just got back from a fun vacation in the mountains.',
     contentImageUrl: 'https://picsum.photos/250?image=52',
@@ -45,15 +46,22 @@ List<Post> posts = [
 
 class Newsfeed extends StatefulWidget {
   final String fullName;
-  const Newsfeed({super.key, required this.fullName});
+  final Uint8List? profileImage;
+  const Newsfeed({
+    super.key,
+    required this.fullName,
+    required this.profileImage,
+  });
 
   @override
   // ignore: no_logic_in_create_state
-  State<Newsfeed> createState() => _NewsfeedState(fullName: fullName);
+  State<Newsfeed> createState() =>
+      _NewsfeedState(fullName: fullName, profileImage: profileImage);
 }
 
 class _NewsfeedState extends State<Newsfeed> {
   final String fullName;
+  final Uint8List? profileImage;
   final TextEditingController _postController = TextEditingController();
 
   void likeButton(int index) {
@@ -135,12 +143,17 @@ class _NewsfeedState extends State<Newsfeed> {
 
   String? postErrorMessage;
 
-  _NewsfeedState({required this.fullName});
+  _NewsfeedState({
+    required this.fullName,
+    required this.profileImage,
+  });
   // Method to add a new post
   void _addNewPost() {
     final newPost = Post(
       username: fullName,
-      userImageUrl: 'https://picsum.photos/250?image=53', // Default image
+      userImageUrl: profileImage != null
+          ? MemoryImage(profileImage!) // Use MemoryImage here
+          : const AssetImage('assets/default_user_image.png'),
       timestamp: 'Just now',
       contentText: _postController.text,
       contentImageUrl:
@@ -166,7 +179,6 @@ class _NewsfeedState extends State<Newsfeed> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -245,8 +257,9 @@ class _NewsfeedState extends State<Newsfeed> {
                                   // Post header
                                   ListTile(
                                     leading: CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                            posts[index].userImageUrl)),
+                                        radius: 35,
+                                        backgroundImage:
+                                            (posts[index].userImageUrl)),
                                     title: Text(posts[index].username),
                                     subtitle: Text(posts[index].timestamp),
                                     trailing: PopupMenuButton<String>(

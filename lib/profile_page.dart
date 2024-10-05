@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:typed_data';
 
 class ProfilePage extends StatelessWidget {
   final String userName;
@@ -7,6 +8,7 @@ class ProfilePage extends StatelessWidget {
   final String email;
   final String phoneNumber;
   final String gender;
+  final Uint8List? profileImage;
 
   const ProfilePage({
     super.key,
@@ -16,6 +18,7 @@ class ProfilePage extends StatelessWidget {
     required this.email,
     required this.phoneNumber,
     required this.gender,
+    required this.profileImage,
   });
 
   @override
@@ -28,11 +31,19 @@ class ProfilePage extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: <Widget>[
-                const CircleAvatar(
-                  radius: 80,
-                  backgroundImage: NetworkImage(
-                      'https://avatars.githubusercontent.com/u/33576285?v=4'),
-                ),
+                const Text('Profile Picture:'),
+                profileImage != null
+                    ? Image.memory(
+                        profileImage!, // Load the image from the bytes
+                        width: 70,
+                        height: 70,
+                        fit: BoxFit.cover,
+                      )
+                    : const CircleAvatar(
+                        radius: 75,
+                        backgroundColor: Colors.grey,
+                        child: Icon(Icons.person, size: 75),
+                      ),
                 const SizedBox(height: 10),
                 Text('Username:',
                     style: Theme.of(context)

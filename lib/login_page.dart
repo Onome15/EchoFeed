@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:app/my_home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'dart:typed_data';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -26,10 +28,18 @@ class LoginPageState extends State<LoginPage> {
     String? email = prefs.getString('email');
     String? age = prefs.getString('age');
     String? gender = prefs.getString('gender');
+    String? base64Image = prefs.getString('profileImage');
 
     if (enteredUsername == savedUsername && enteredPassword == savedPassword) {
       // Login success, pass the details to the ProfilePage
       if (!mounted) return;
+      Uint8List? profileImage;
+      if (base64Image != null) {
+        setState(() {
+          profileImage = base64Decode(
+              base64Image); // Decode the base64 string to Uint8List
+        }); // Decode base64 to bytes
+      }
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -40,6 +50,7 @@ class LoginPageState extends State<LoginPage> {
             phoneNumber: number!,
             email: email!,
             gender: gender!,
+            profileImage: profileImage,
           ),
         ),
       );

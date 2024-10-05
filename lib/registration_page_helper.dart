@@ -2,6 +2,8 @@ import 'package:app/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:convert';
 
 class RegistrationPageHelper extends StatelessWidget {
   const RegistrationPageHelper({super.key});
@@ -39,8 +41,26 @@ class _MyHomePageState extends State<MyHomePage> {
   final _fullNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _ageController = TextEditingController();
-  // final _genderController = TextEditingController();
   Gender? _selectedOption = Gender.male;
+
+  Uint8List? _profileImage; // Store the profile image as bytes
+  Future<void> _pickImage() async {
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(type: FileType.image);
+
+    if (result != null) {
+      Uint8List? fileBytes = result.files.first.bytes; // Get image as bytes
+      if (fileBytes != null) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        String base64String = base64Encode(fileBytes);
+        await prefs.setString('profileImage', base64String);
+
+        setState(() {
+          _profileImage = fileBytes;
+        });
+      }
+    }
+  }
 
   Future<void> _register() async {
     final username = _userNameController.text;
@@ -149,10 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 const Center(
                   child: Text(
                     'Create Account',
-                    style: TextStyle(
-                        fontSize: 25,
-                        // color: Color.fromARGB(255, 241, 237, 237),
-                        fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
                 ),
                 TextFormField(
@@ -331,6 +348,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
                 const SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: _pickImage,
+                  child: const Text('Upload Profile Picture'),
+                ),
+                const SizedBox(height: 10),
+
+                // Show selected image preview if an image is picked
+                _profileImage != null
+                    ? const Text('Image Selected')
+                    : const Text('No Image Selected'),
+                const SizedBox(height: 20),
                 Center(
                   child: ElevatedButton(
                     onPressed: () {

@@ -2,6 +2,7 @@ import 'package:app/news_feed.dart';
 import 'package:app/notification_page.dart';
 import 'package:app/profile_page.dart';
 import 'package:flutter/material.dart';
+import 'dart:typed_data';
 
 class MyHome extends StatelessWidget {
   final String userName;
@@ -10,6 +11,7 @@ class MyHome extends StatelessWidget {
   final String email;
   final String phoneNumber;
   final String gender;
+  final Uint8List? profileImage;
 
   const MyHome({
     super.key,
@@ -19,6 +21,7 @@ class MyHome extends StatelessWidget {
     required this.email,
     required this.phoneNumber,
     required this.gender,
+    required this.profileImage,
   });
 
   @override
@@ -32,6 +35,7 @@ class MyHome extends StatelessWidget {
         email: email,
         phoneNumber: phoneNumber,
         gender: gender,
+        profileImage: profileImage,
       ),
     );
   }
@@ -44,6 +48,7 @@ class MyHomePage extends StatefulWidget {
   final String email;
   final String phoneNumber;
   final String gender;
+  final Uint8List? profileImage;
 
   const MyHomePage({
     super.key,
@@ -53,6 +58,7 @@ class MyHomePage extends StatefulWidget {
     required this.email,
     required this.phoneNumber,
     required this.gender,
+    required this.profileImage,
   });
 
   @override
@@ -70,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _pages = <Widget>[
       HomePage(
         fullName: widget.fullName,
+        profileImage: widget.profileImage,
       ),
       const Notification(),
       Profile(
@@ -79,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
         email: widget.email,
         phoneNumber: widget.phoneNumber,
         gender: widget.gender,
+        profileImage: widget.profileImage,
       ),
     ];
 
@@ -135,7 +143,12 @@ class _MyHomePageState extends State<MyHomePage> {
 // Home Page Widget
 class HomePage extends StatefulWidget {
   final String fullName;
-  const HomePage({super.key, required this.fullName});
+  final Uint8List? profileImage;
+  const HomePage({
+    super.key,
+    required this.fullName,
+    required this.profileImage,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -147,6 +160,7 @@ class _HomePageState extends State<HomePage> {
     return Center(
       child: Newsfeed(
         fullName: widget.fullName,
+        profileImage: widget.profileImage,
       ),
     );
   }
@@ -171,6 +185,7 @@ class Profile extends StatefulWidget {
   final String email;
   final String phoneNumber;
   final String gender;
+  final Uint8List? profileImage;
 
   const Profile({
     super.key,
@@ -180,6 +195,7 @@ class Profile extends StatefulWidget {
     required this.email,
     required this.phoneNumber,
     required this.gender,
+    required this.profileImage,
   });
   @override
   State<Profile> createState() => _ProfileState();
@@ -196,6 +212,7 @@ class _ProfileState extends State<Profile> {
         email: widget.email,
         phoneNumber: widget.phoneNumber,
         gender: widget.gender,
+        profileImage: widget.profileImage,
       ),
     );
   }
