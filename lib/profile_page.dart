@@ -1,3 +1,4 @@
+import 'package:app/edit_profile_details.dart';
 import 'package:app/main.dart';
 import 'package:flutter/material.dart';
 import 'dart:typed_data';
@@ -75,42 +76,35 @@ class ProfilePage extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 10),
-                        Text('Flutter Enthusiastic and Tech advocate',
+                        Text('Flutter Enthusiast and Tech Advocate',
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyLarge),
                       ],
                     ),
                   ),
                   Positioned(
-                    top: 0,
-                    right: 0,
-                    child: PopupMenuButton<String>(
-                      onSelected: (value) {
-                        if (value == 'Edit') {
-                          // Handle Edit profile logic here
-                        } else if (value == 'Logout') {
-                          // Handle Logout logic here
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const MainScreen(),
-                            ),
-                          );
-                        }
-                      },
-                      itemBuilder: (context) => [
-                        const PopupMenuItem(
-                          value: 'Edit',
-                          child: Text('Edit'),
-                        ),
-                        const PopupMenuItem(
-                          value: 'Logout',
-                          child: Text('Logout'),
-                        ),
-                      ],
-                      icon: const Icon(Icons.more_vert),
-                    ),
-                  ),
+                      top: 0,
+                      right: 0,
+                      child: PopupMenuButton<String>(
+                        onSelected: (value) {
+                          if (value == 'Edit') {
+                            _editProfile(context);
+                          } else if (value == 'Logout') {
+                            logOut(context);
+                          }
+                        },
+                        itemBuilder: (context) => [
+                          const PopupMenuItem(
+                            value: 'Edit',
+                            child: Text('Edit'),
+                          ),
+                          const PopupMenuItem(
+                            value: 'Logout',
+                            child: Text('Logout'),
+                          ),
+                        ],
+                        icon: const Icon(Icons.more_vert),
+                      )),
                 ]),
                 const SizedBox(height: 20),
                 Card(
@@ -128,17 +122,13 @@ class ProfilePage extends StatelessWidget {
                         subtitle: Text(age.toString()),
                       ),
                       ListTile(
-                          leading: const Icon(Icons.phone),
-                          title: const Text(
-                            'Phone Number',
-                          ),
-                          subtitle: Text(phoneNumber),
-                          onTap: () {}),
+                        leading: const Icon(Icons.phone),
+                        title: const Text('Phone Number'),
+                        subtitle: Text(phoneNumber),
+                      ),
                       ListTile(
                         leading: const Icon(Icons.email),
-                        title: const Text(
-                          'Email Address',
-                        ),
+                        title: const Text('Email Address'),
                         subtitle: Text(email),
                       ),
                       ListTile(
@@ -178,6 +168,54 @@ class ProfilePage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  // Function to navigate to EditProfilePage
+  void _editProfile(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditProfilePage(
+          userName: userName,
+          fullName: fullName,
+          age: age,
+          email: email,
+          phoneNumber: phoneNumber,
+          gender: gender,
+          profileImage: profileImage,
+        ),
+      ),
+    );
+  }
+
+  Future<dynamic> logOut(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: const Text('Logout of EchoFeed?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+            TextButton(
+              child: const Text('Logout'),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MainScreen(),
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

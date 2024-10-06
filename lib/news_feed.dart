@@ -252,9 +252,7 @@ class _NewsfeedState extends State<Newsfeed> {
                             child: Padding(
                               padding: const EdgeInsets.all(15),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  // Post header
                                   ListTile(
                                     leading: CircleAvatar(
                                         radius: 35,
