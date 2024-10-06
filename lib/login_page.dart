@@ -68,29 +68,35 @@ class LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: const Text('Login'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _usernameController,
-              decoration: const InputDecoration(labelText: 'Username'),
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                TextField(
+                  controller: _usernameController,
+                  decoration: const InputDecoration(labelText: 'Username'),
+                ),
+                TextField(
+                  controller: _passwordController,
+                  decoration: const InputDecoration(labelText: 'Password'),
+                  obscureText: true,
+                ),
+                const SizedBox(height: 15),
+                ElevatedButton(
+                  onPressed: _login,
+                  child: const Text('Login'),
+                ),
+                if (_errorMessage.isNotEmpty)
+                  Text(
+                    _errorMessage,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+              ],
             ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            ElevatedButton(
-              onPressed: _login,
-              child: const Text('Login'),
-            ),
-            if (_errorMessage.isNotEmpty)
-              Text(
-                _errorMessage,
-                style: const TextStyle(color: Colors.red),
-              ),
-          ],
+          ),
         ),
       ),
     );
