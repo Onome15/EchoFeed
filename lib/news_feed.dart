@@ -8,7 +8,7 @@ class Post {
   final ImageProvider userImageUrl;
   String timestamp;
   String contentText;
-  String contentImageUrl;
+  final ImageProvider contentImageUrl;
   int likes;
   int dislikes;
   bool isDisliked;
@@ -33,27 +33,28 @@ List<Post> posts = [
     userImageUrl: const NetworkImage('https://picsum.photos/250?image=237'),
     timestamp: '21 hours ago',
     contentText: 'Enjoying the beautiful sunset at the beach!',
-    contentImageUrl: 'https://picsum.photos/250?image=51',
+    contentImageUrl: const NetworkImage('https://picsum.photos/250?image=51'),
   ),
   Post(
     username: 'Orhero Onome',
     userImageUrl: const AssetImage('assets/myphoto.jpg'),
     timestamp: '3 day ago',
     contentText: 'Flutter enthusiast and creator EchoFeed',
-    contentImageUrl: 'assets/myphoto.jpg',
+    contentImageUrl: const AssetImage('assets/myphoto.jpg'),
   ),
   Post(
     username: 'Mark Doe',
     userImageUrl: const NetworkImage('https://picsum.photos/250?image=237'),
     timestamp: '5 day ago',
     contentText: 'Just got back from a fun vacation in the mountains.',
-    contentImageUrl: 'https://picsum.photos/250?image=52',
+    contentImageUrl: const NetworkImage('https://picsum.photos/250?image=52'),
   ),
 ];
 
 class Newsfeed extends StatefulWidget {
   final String fullName;
   final Uint8List? profileImage;
+
   const Newsfeed({
     super.key,
     required this.fullName,
@@ -61,14 +62,22 @@ class Newsfeed extends StatefulWidget {
   });
 
   @override
-  // ignore: no_logic_in_create_state
-  State<Newsfeed> createState() =>
-      _NewsfeedState(fullName: fullName, profileImage: profileImage);
+  NewsfeedState createState() => NewsfeedState();
 }
 
-class _NewsfeedState extends State<Newsfeed> {
-  final String fullName;
-  final Uint8List? profileImage;
+class NewsfeedState extends State<Newsfeed> {
+  late String fullName;
+  late Uint8List? profileImage;
+
+  @override
+  void initState() {
+    super.initState();
+    fullName = widget.fullName;
+    profileImage = widget.profileImage;
+
+    // Debugging
+  }
+
   final TextEditingController _postController = TextEditingController();
 
   void likeButton(int index) {
@@ -150,10 +159,6 @@ class _NewsfeedState extends State<Newsfeed> {
 
   String? postErrorMessage;
 
-  _NewsfeedState({
-    required this.fullName,
-    required this.profileImage,
-  });
   // Method to add a new post
   void _addNewPost() {
     final newPost = Post(
@@ -163,8 +168,8 @@ class _NewsfeedState extends State<Newsfeed> {
           : const AssetImage('assets/default_user_image.png'),
       timestamp: 'Just now',
       contentText: _postController.text,
-      contentImageUrl:
-          'https://picsum.photos/250?image=53', // Default content image
+      contentImageUrl: const NetworkImage(
+          'https://picsum.photos/250?image=53'), // Default content image
     );
     if (_postController.text.isEmpty) {
       setState(() {
@@ -297,8 +302,8 @@ class _NewsfeedState extends State<Newsfeed> {
                                         child: Text(posts[index].contentText)),
                                   ),
                                   // Post image
-                                  Image.network(
-                                    posts[index].contentImageUrl,
+                                  Image(
+                                    image: posts[index].contentImageUrl,
                                     width: double.infinity,
                                     fit: BoxFit.cover,
                                   ),
