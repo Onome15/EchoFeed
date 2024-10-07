@@ -25,9 +25,13 @@ class RegPage extends StatelessWidget {
         title: Row(
           children: [
             backIcon(),
-            const Text("Create an account"),
+            const Text(
+              "Create an account",
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
           ],
         ),
+        backgroundColor: Colors.indigo,
       ),
       body: const Center(
         child: RegistrationPageHelper(),

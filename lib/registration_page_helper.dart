@@ -145,250 +145,245 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: const Color.fromARGB(255, 231, 233, 247),
         body: SingleChildScrollView(
             child: Center(
-      child: Container(
-        margin: const EdgeInsets.all(10),
-        width: 500,
-        // height: max,
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 245, 246, 247),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: const Color.fromARGB(255, 247, 244, 244),
-            width: 5, // Border thickness
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Center(
-                  child: Text(
-                    'Create Account',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                TextFormField(
-                  controller: _fullNameController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+          child: Container(
+            margin: const EdgeInsets.all(10),
+            width: 500,
+            // height: max,
+
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Center(
+                      child: Text(
+                        'Create Account',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
                     ),
-                    labelText: 'Full Name',
-                    hintText: 'Enter your Full Name',
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your name';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 15),
-                TextFormField(
-                  controller: _userNameController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                    TextFormField(
+                      controller: _fullNameController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: 'Full Name',
+                        hintText: 'Enter your Full Name',
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your name';
+                        }
+                        return null;
+                      },
                     ),
-                    labelText: 'User Name',
-                    hintText: 'Enter your User Name',
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your Username';
-                    } else if (value.contains(' ')) {
-                      return 'Please remove space';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 15),
-                TextFormField(
-                  controller: _ageController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                    const SizedBox(height: 15),
+                    TextFormField(
+                      controller: _userNameController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: 'User Name',
+                        hintText: 'Enter your User Name',
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your Username';
+                        } else if (value.contains(' ')) {
+                          return 'Please remove space';
+                        }
+                        return null;
+                      },
                     ),
-                    labelText: 'Age',
-                    hintText: 'Enter your User Age',
-                  ),
-                  keyboardType: TextInputType.number,
-                  maxLength: 3,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your Age';
-                    }
-                    final int? usersAge = int.tryParse(value);
-                    if (usersAge! <= 17) {
-                      return 'Age must be above 17';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 5),
-                TextFormField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    hintText: 'Enter your email',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                    const SizedBox(height: 15),
+                    TextFormField(
+                      controller: _ageController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: 'Age',
+                        hintText: 'Enter your User Age',
+                      ),
+                      keyboardType: TextInputType.number,
+                      maxLength: 3,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your Age';
+                        }
+                        final int? usersAge = int.tryParse(value);
+                        if (usersAge! <= 17) {
+                          return 'Age must be above 17';
+                        }
+                        return null;
+                      },
                     ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    } else if (!value.contains('@') ||
-                        !value.contains('.com') ||
-                        value.contains(' ')) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 15),
-                TextFormField(
-                  controller: _phoneNumberController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                    const SizedBox(height: 5),
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        hintText: 'Enter your email',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your email';
+                        } else if (!value.contains('@') ||
+                            !value.contains('.com') ||
+                            value.contains(' ')) {
+                          return 'Please enter a valid email';
+                        }
+                        return null;
+                      },
                     ),
-                    labelText: 'Phone Number',
-                    hintText: 'Enter your Phone Number',
-                    prefixIcon: const Icon(Icons.phone),
-                    suffixIcon: isValid
-                        ? const Icon(Icons.check_circle, color: Colors.blue)
-                        : null,
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your phone number';
-                    } else if (value.length < 11) {
-                      return 'Please enter a valid phone number';
-                    }
-                    return null;
-                  },
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(11),
+                    const SizedBox(height: 15),
+                    TextFormField(
+                      controller: _phoneNumberController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: 'Phone Number',
+                        hintText: 'Enter your Phone Number',
+                        prefixIcon: const Icon(Icons.phone),
+                        suffixIcon: isValid
+                            ? const Icon(Icons.check_circle, color: Colors.blue)
+                            : null,
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your phone number';
+                        } else if (value.length < 11) {
+                          return 'Please enter a valid phone number';
+                        }
+                        return null;
+                      },
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(11),
+                      ],
+                    ),
+                    const SizedBox(height: 15),
+                    const Text(
+                      "Select Gender:",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    gender(),
+                    const SizedBox(height: 20),
+                    Text('Selected Gender:  ${_selectedOption?.text ?? ''}'),
+                    const SizedBox(height: 15),
+                    TextFormField(
+                      controller: _passwordController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: 'Password',
+                        suffixIcon: isPasswordValid
+                            ? const Icon(Icons.check_circle, color: Colors.blue)
+                            : null,
+                      ),
+                      obscureText: true,
+                      onChanged: _checkPassword,
+                    ),
+                    if (passwordErrorMessage !=
+                        null) // Conditionally show error text
+                      Text(
+                        passwordErrorMessage!,
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                          color: Color.fromARGB(255, 169, 16, 5),
+                          fontSize: 12,
+                        ),
+                      ),
+                    const SizedBox(height: 15),
+                    TextFormField(
+                      controller: _confirmPasswordController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: 'Confirm Password',
+                        hintText: 'Confirm Password',
+                        suffixIcon: () {
+                          if (_confirmPasswordController.text.length > 5 &&
+                              _confirmPasswordController.text ==
+                                  _passwordController.text) {
+                            return const Icon(Icons.check_circle,
+                                color: Colors.blue);
+                          } else {
+                            return null;
+                          }
+                        }(),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          // Triggers the UI rebuild based on the matching condition
+                          // No extra logic needed here as the suffixIcon is updated automatically
+                        });
+                      },
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please confirm your password';
+                        } else if (value != _passwordController.text) {
+                          return 'Passwords do not match';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: _pickImage,
+                      child: const Text('Upload Profile Picture'),
+                    ),
+                    const SizedBox(height: 10),
+
+                    // Show selected image preview if an image is picked
+                    _profileImage != null
+                        ? const Text('Image Selected')
+                        : const Text('No Image Selected'),
+                    const SizedBox(height: 20),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (isPasswordValid == true) {
+                            if (_formKey.currentState!.validate()) {
+                              String userName = _userNameController.text;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Dear $userName, Your account has been successfully created'),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                              Future.delayed(const Duration(seconds: 1), () {
+                                _register();
+                              });
+                            }
+                          } else {
+                            _validateForm();
+                          }
+                        },
+                        child: const Text('Create'),
+                      ),
+                    ),
                   ],
                 ),
-                const SizedBox(height: 15),
-                const Text(
-                  "Select Gender:",
-                  style: TextStyle(fontSize: 18),
-                ),
-                gender(),
-                const SizedBox(height: 20),
-                Text('Selected Gender:  ${_selectedOption?.text ?? ''}'),
-                const SizedBox(height: 15),
-                TextFormField(
-                  controller: _passwordController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    labelText: 'Password',
-                    suffixIcon: isPasswordValid
-                        ? const Icon(Icons.check_circle, color: Colors.blue)
-                        : null,
-                  ),
-                  obscureText: true,
-                  onChanged: _checkPassword,
-                ),
-                if (passwordErrorMessage !=
-                    null) // Conditionally show error text
-                  Text(
-                    passwordErrorMessage!,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      color: Color.fromARGB(255, 169, 16, 5),
-                      fontSize: 12,
-                    ),
-                  ),
-                const SizedBox(height: 15),
-                TextFormField(
-                  controller: _confirmPasswordController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    labelText: 'Confirm Password',
-                    hintText: 'Confirm Password',
-                    suffixIcon: () {
-                      if (_confirmPasswordController.text.length > 5 &&
-                          _confirmPasswordController.text ==
-                              _passwordController.text) {
-                        return const Icon(Icons.check_circle,
-                            color: Colors.blue);
-                      } else {
-                        return null;
-                      }
-                    }(),
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      // Triggers the UI rebuild based on the matching condition
-                      // No extra logic needed here as the suffixIcon is updated automatically
-                    });
-                  },
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please confirm your password';
-                    } else if (value != _passwordController.text) {
-                      return 'Passwords do not match';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: _pickImage,
-                  child: const Text('Upload Profile Picture'),
-                ),
-                const SizedBox(height: 10),
-
-                // Show selected image preview if an image is picked
-                _profileImage != null
-                    ? const Text('Image Selected')
-                    : const Text('No Image Selected'),
-                const SizedBox(height: 20),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (isPasswordValid == true) {
-                        if (_formKey.currentState!.validate()) {
-                          String userName = _userNameController.text;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                  'Dear $userName, Your account has been successfully created'),
-                              duration: const Duration(seconds: 2),
-                            ),
-                          );
-                          Future.delayed(const Duration(seconds: 2), () {
-                            _register();
-                          });
-                        }
-                      } else {
-                        _validateForm();
-                      }
-                    },
-                    child: const Text('Register'),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
-    )));
+        )));
   }
 
   Row gender() {

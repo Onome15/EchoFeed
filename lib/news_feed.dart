@@ -36,9 +36,16 @@ List<Post> posts = [
     contentImageUrl: 'https://picsum.photos/250?image=51',
   ),
   Post(
+    username: 'Orhero Onome',
+    userImageUrl: const AssetImage('assets/myphoto.jpg'),
+    timestamp: '3 day ago',
+    contentText: 'Flutter enthusiast and creator EchoFeed',
+    contentImageUrl: 'assets/myphoto.jpg',
+  ),
+  Post(
     username: 'Mark Doe',
     userImageUrl: const NetworkImage('https://picsum.photos/250?image=237'),
-    timestamp: '1 day ago',
+    timestamp: '5 day ago',
     contentText: 'Just got back from a fun vacation in the mountains.',
     contentImageUrl: 'https://picsum.photos/250?image=52',
   ),
@@ -187,7 +194,7 @@ class _NewsfeedState extends State<Newsfeed> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 constraints: const BoxConstraints(maxWidth: 600),
-                margin: const EdgeInsets.only(bottom: 20),
+                margin: const EdgeInsets.only(bottom: 5),
                 child: Column(
                   children: [
                     // Large TextFormField to add new posts
@@ -224,7 +231,7 @@ class _NewsfeedState extends State<Newsfeed> {
                 ),
               ),
             ),
-            const SizedBox(height: 10),
+
             // Show either the feed or the message if posts are empty
             posts.isEmpty
                 ? const Center(
@@ -285,7 +292,9 @@ class _NewsfeedState extends State<Newsfeed> {
                                   // Post content
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Text(posts[index].contentText),
+                                    child: Align(
+                                        alignment: Alignment.bottomLeft,
+                                        child: Text(posts[index].contentText)),
                                   ),
                                   // Post image
                                   Image.network(

@@ -93,8 +93,15 @@ class EditProfilePageState extends State<EditProfilePage> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Handle profile update here
-                Navigator.pop(context); // Go back after saving
+                // Collect the updated data and pass it back to the ProfilePage
+                Navigator.pop(context, {
+                  'userName': userNameController.text,
+                  'fullName': fullNameController.text,
+                  'age': int.parse(ageController.text),
+                  'email': emailController.text,
+                  'phoneNumber': phoneNumberController.text,
+                  'gender': genderController.text,
+                });
               },
               child: const Text('Save Changes'),
             ),

@@ -2,8 +2,9 @@ import 'package:app/edit_profile_details.dart';
 import 'package:app/main.dart';
 import 'package:flutter/material.dart';
 import 'dart:typed_data';
+import 'package:url_launcher/url_launcher.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   final String userName;
   final String fullName;
   final int age;
@@ -22,6 +23,38 @@ class ProfilePage extends StatelessWidget {
     required this.gender,
     required this.profileImage,
   });
+
+  @override
+  ProfilePageState createState() => ProfilePageState();
+}
+
+class ProfilePageState extends State<ProfilePage> {
+  late String userName;
+  late String fullName;
+  late int age;
+  late String email;
+  late String phoneNumber;
+  late String gender;
+  Uint8List? profileImage;
+
+  @override
+  void initState() {
+    super.initState();
+
+    userName = widget.userName;
+    fullName = widget.fullName;
+    age = widget.age;
+    email = widget.email;
+    phoneNumber = widget.phoneNumber;
+    gender = widget.gender;
+    profileImage = widget.profileImage;
+  }
+
+  Future<void> _launchURL(url) async {
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +109,7 @@ class ProfilePage extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 10),
-                        Text('Flutter Enthusiast and Tech Advocate',
+                        Text('Highly motivated software developer',
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyLarge),
                       ],
@@ -145,19 +178,22 @@ class ProfilePage extends StatelessWidget {
                   children: <Widget>[
                     IconButton(
                       icon: const Icon(Icons.facebook),
-                      onPressed: () {},
+                      onPressed: () => _launchURL(Uri.parse(
+                          'https://web.facebook.com/profile.php?id=100070104341422')),
                       color: Colors.blue,
                       tooltip: 'Facebook',
                     ),
                     IconButton(
                       icon: const Icon(Icons.link),
-                      onPressed: () {},
+                      onPressed: () => _launchURL(
+                          Uri.parse('https://linkedin.com/in/orhero-onome/')),
                       color: Colors.blue,
                       tooltip: 'LinkedIn',
                     ),
                     IconButton(
                       icon: const Icon(Icons.code),
-                      onPressed: () {},
+                      onPressed: () =>
+                          _launchURL(Uri.parse('https://github.com/Onome15')),
                       color: Colors.black,
                       tooltip: 'GitHub',
                     ),
@@ -172,8 +208,9 @@ class ProfilePage extends StatelessWidget {
   }
 
   // Function to navigate to EditProfilePage
-  void _editProfile(BuildContext context) {
-    Navigator.push(
+  void _editProfile(BuildContext context) async {
+    // Wait for the result (updated profile) from the EditProfilePage
+    final updatedProfile = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => EditProfilePage(
@@ -187,6 +224,18 @@ class ProfilePage extends StatelessWidget {
         ),
       ),
     );
+
+    if (updatedProfile != null) {
+      setState(() {
+        // Update the profile details with the returned data
+        userName = updatedProfile['userName'];
+        fullName = updatedProfile['fullName'];
+        age = updatedProfile['age'];
+        email = updatedProfile['email'];
+        phoneNumber = updatedProfile['phoneNumber'];
+        gender = updatedProfile['gender'];
+      });
+    }
   }
 
   Future<dynamic> logOut(BuildContext context) {
