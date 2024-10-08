@@ -345,15 +345,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: _pickImage,
-                      child: const Text('Upload Profile Picture'),
+                      child: Text(_profileImage != null
+                          ? 'Photo selected'
+                          : 'Add Photo'),
                     ),
                     const SizedBox(height: 10),
-
-                    // Show selected image preview if an image is picked
-                    _profileImage != null
-                        ? const Text('Image Selected')
-                        : const Text('No Image Selected'),
-                    const SizedBox(height: 20),
                     Center(
                       child: ElevatedButton(
                         onPressed: () {

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'notification_model.dart'; // Import the notification model
 import 'dart:typed_data';
+import 'package:file_picker/file_picker.dart';
 
 class Post {
   String username;
   final ImageProvider userImageUrl;
   String timestamp;
   String contentText;
-  final ImageProvider contentImageUrl;
+  final ImageProvider? contentImageUrl;
   int likes;
   int dislikes;
   bool isDisliked;
@@ -108,6 +109,18 @@ class NewsfeedState extends State<Newsfeed> {
     });
   }
 
+  Uint8List? _contentImage; // Store the profile image as bytes
+  Future<void> _pickImage() async {
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(type: FileType.image);
+
+    if (result != null) {
+      setState(() {
+        _contentImage = result.files.first.bytes;
+      });
+    }
+  }
+
   void _deletePost(int index) {
     setState(() {
       Provider.of<NotificationModel>(context, listen: false).addNotification(
@@ -168,18 +181,20 @@ class NewsfeedState extends State<Newsfeed> {
           : const AssetImage('assets/default_user_image.png'),
       timestamp: 'Just now',
       contentText: _postController.text,
-      contentImageUrl: const NetworkImage(
-          'https://picsum.photos/250?image=53'), // Default content image
+      contentImageUrl:
+          _contentImage != null ? MemoryImage(_contentImage!) : null,
     );
-    if (_postController.text.isEmpty) {
+    if (_postController.text.isEmpty && _contentImage == null) {
       setState(() {
-        postErrorMessage = 'Please enter a text';
+        postErrorMessage = 'Please enter text or select an image';
       });
     } else {
       // Add the new post to the top of the list
       setState(() {
         posts.insert(0, newPost);
-        postErrorMessage = '';
+        postErrorMessage = null;
+        _contentImage = null; // Clear selected image
+        _postController.clear();
       });
       Provider.of<NotificationModel>(context, listen: false)
           .addNotification('$fullName, your post have been added');
@@ -207,7 +222,7 @@ class NewsfeedState extends State<Newsfeed> {
                       controller: _postController,
                       maxLines: 4,
                       decoration: InputDecoration(
-                        hintText: 'What’s on your mind?',
+                        hintText: '$fullName, what’s on your mind?',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -227,6 +242,13 @@ class NewsfeedState extends State<Newsfeed> {
                           fontSize: 12,
                         ),
                       ),
+                    const SizedBox(height: 8),
+                    ElevatedButton(
+                      onPressed: _pickImage,
+                      child: Text(_contentImage != null
+                          ? 'Photo selected'
+                          : 'Add Photo'),
+                    ),
                     const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: _addNewPost,
@@ -302,11 +324,12 @@ class NewsfeedState extends State<Newsfeed> {
                                         child: Text(posts[index].contentText)),
                                   ),
                                   // Post image
-                                  Image(
-                                    image: posts[index].contentImageUrl,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                  ),
+                                  if (posts[index].contentImageUrl != null)
+                                    Image(
+                                      image: posts[index].contentImageUrl!,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                    ),
                                   // Post actions (likes, dislikes, comments)
                                   Container(
                                     margin:
