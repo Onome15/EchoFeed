@@ -37,18 +37,18 @@ List<Post> posts = [
     contentImageUrl: const NetworkImage('https://picsum.photos/250?image=51'),
   ),
   Post(
-    username: 'Orhero Onome',
-    userImageUrl: const AssetImage('assets/myphoto.jpg'),
-    timestamp: '3 day ago',
-    contentText: 'Flutter enthusiast and creator EchoFeed',
-    contentImageUrl: const AssetImage('assets/myphoto.jpg'),
-  ),
-  Post(
     username: 'Mark Doe',
     userImageUrl: const NetworkImage('https://picsum.photos/250?image=237'),
     timestamp: '5 day ago',
     contentText: 'Just got back from a fun vacation in the mountains.',
     contentImageUrl: const NetworkImage('https://picsum.photos/250?image=52'),
+  ),
+  Post(
+    username: 'Orhero Onome',
+    userImageUrl: const AssetImage('assets/myphoto.jpg'),
+    timestamp: '3 day ago',
+    contentText: 'Flutter enthusiast and creator EchoFeed',
+    contentImageUrl: const AssetImage('assets/myphoto.jpg'),
   ),
 ];
 

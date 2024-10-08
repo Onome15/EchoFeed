@@ -58,54 +58,67 @@ class EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 231, 233, 247),
       appBar: AppBar(
-        title: const Text('Edit Profile'),
+        title: const Text(
+          'Edit Profile',
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
+        backgroundColor: Colors.indigo,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: userNameController,
-              decoration: const InputDecoration(labelText: 'Username'),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  TextField(
+                    controller: userNameController,
+                    decoration: const InputDecoration(labelText: 'Username'),
+                  ),
+                  TextField(
+                    controller: fullNameController,
+                    decoration: const InputDecoration(labelText: 'Full Name'),
+                  ),
+                  TextField(
+                    controller: ageController,
+                    decoration: const InputDecoration(labelText: 'Age'),
+                    keyboardType: TextInputType.number,
+                  ),
+                  TextField(
+                    controller: emailController,
+                    decoration: const InputDecoration(labelText: 'Email'),
+                  ),
+                  TextField(
+                    controller: phoneNumberController,
+                    decoration:
+                        const InputDecoration(labelText: 'Phone Number'),
+                  ),
+                  TextField(
+                    controller: genderController,
+                    decoration: const InputDecoration(labelText: 'Gender'),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Collect the updated data and pass it back to the ProfilePage
+                      Navigator.pop(context, {
+                        'userName': userNameController.text,
+                        'fullName': fullNameController.text,
+                        'age': int.parse(ageController.text),
+                        'email': emailController.text,
+                        'phoneNumber': phoneNumberController.text,
+                        'gender': genderController.text,
+                      });
+                    },
+                    child: const Text('Save Changes'),
+                  ),
+                ],
+              ),
             ),
-            TextField(
-              controller: fullNameController,
-              decoration: const InputDecoration(labelText: 'Full Name'),
-            ),
-            TextField(
-              controller: ageController,
-              decoration: const InputDecoration(labelText: 'Age'),
-              keyboardType: TextInputType.number,
-            ),
-            TextField(
-              controller: emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-            ),
-            TextField(
-              controller: phoneNumberController,
-              decoration: const InputDecoration(labelText: 'Phone Number'),
-            ),
-            TextField(
-              controller: genderController,
-              decoration: const InputDecoration(labelText: 'Gender'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Collect the updated data and pass it back to the ProfilePage
-                Navigator.pop(context, {
-                  'userName': userNameController.text,
-                  'fullName': fullNameController.text,
-                  'age': int.parse(ageController.text),
-                  'email': emailController.text,
-                  'phoneNumber': phoneNumberController.text,
-                  'gender': genderController.text,
-                });
-              },
-              child: const Text('Save Changes'),
-            ),
-          ],
+          ),
         ),
       ),
     );

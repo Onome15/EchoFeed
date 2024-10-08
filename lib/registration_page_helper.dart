@@ -151,8 +151,6 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Container(
             margin: const EdgeInsets.all(10),
             width: 500,
-            // height: max,
-
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: Form(
@@ -279,8 +277,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       style: TextStyle(fontSize: 18),
                     ),
                     gender(),
-                    const SizedBox(height: 20),
-                    Text('Selected Gender:  ${_selectedOption?.text ?? ''}'),
                     const SizedBox(height: 15),
                     TextFormField(
                       controller: _passwordController,
